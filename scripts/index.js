@@ -1,9 +1,9 @@
-function cardsAddContent(name, link) {
+function createCard(name, link) {
     const cardTemplate = document.querySelector('#card-template').content; // нашли шаблон карточки в HTML
     const cardContent = cardTemplate.querySelector('.card').cloneNode(true); // скопировали его содержимое
 
-    cardContent.name = cardContent.querySelector('.card__title').textContent = name; // добавили свойству name имя карточки
-    cardContent.link = cardContent.querySelector('.card__image').src = link; // добавили свойству link ссылку на карточку
+    cardContent.querySelector('.card__title').textContent = name; // добавили свойству name имя карточки
+    cardContent.querySelector('.card__image').src = link; // добавили свойству link ссылку на карточку
 
     const deleteButton = cardContent.querySelector('.card__delete-button'); //нашли кнопку удаления
     deleteButton.addEventListener('click', function () { //добавили слушатель для кнопки при клике
@@ -14,9 +14,7 @@ function cardsAddContent(name, link) {
   };
 
   initialCards.forEach(function (card) {
-    cardContent = cardsAddContent(card.name, card.link) // вызвали функцию, передали name и link
+    const cardContent = createCard(card.name, card.link) // вызвали функцию, передали name и link
     const placesList = document.querySelector('.places__list'); // нашли контейнер для карточек
     placesList.append(cardContent); // добавили карточку в конец контейнера
   });
-
-cardsRender();
