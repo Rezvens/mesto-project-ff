@@ -1,21 +1,25 @@
-function createCard(name, link, alt) {
-    const cardTemplate = document.querySelector('#card-template').content; // нашли шаблон карточки в HTML
-    const cardContent = cardTemplate.querySelector('.card').cloneNode(true); // скопировали его содержимое
+function createCard(name, link, alt) { // создание карточки с имененм, источником и альтернативным текстом
+  const cardTemplate = document.querySelector('#card-template').content; // нашли шаблон карточки в HTML
+  const cardContent = cardTemplate.querySelector('.card').cloneNode(true); // скопировали его содержимое
 
-    cardContent.querySelector('.card__title').textContent = name; // добавили свойству name имя карточки
-    cardContent.querySelector('.card__image').src = link; // добавили свойству link ссылку на карточку
-    cardContent.querySelector('.card__image').alt = alt;
+  cardContent.querySelector('.card__title').textContent = name; // добавили в name имя карточки
+  cardContent.querySelector('.card__image').src = link; // добавили в link ссылку на карточку
+  cardContent.querySelector('.card__image').alt = alt; // добавили в alt альтернативный текст
 
-    const deleteButton = cardContent.querySelector('.card__delete-button'); //нашли кнопку удаления
-    deleteButton.addEventListener('click', function () { //добавили слушатель для кнопки при клике
-    const card = deleteButton.closest('.card'); //нашли ближайшего родителя card
-    card.remove(); //удалили этот элемент
-    })
-    return cardContent;
-  };
+  const deleteButton = cardContent.querySelector('.card__delete-button'); // нашли кнопку удаления в карточке
+  deleteButton.addEventListener('click', removeCard); // добавили кнопке слушатель
 
-  initialCards.forEach(function (card) {
-    const cardContent = createCard(card.name, card.link, card.alt) // вызвали функцию, передали name и link
-    const placesList = document.querySelector('.places__list'); // нашли контейнер для карточек
-    placesList.append(cardContent); // добавили карточку в конец контейнера
-  });
+  return cardContent; // вернули готовую карточку
+};
+
+initialCards.forEach(function (card) { // функция для каждой картчки в массиве
+  const cardContent = createCard(card.name, card.link, card.alt) // вызвали функцию, передали name, link и alt
+  const placesList = document.querySelector('.places__list'); // нашли контейнер для карточек
+  placesList.append(cardContent); // добавили карточку в конец контейнера
+});
+
+function removeCard(evt) { // функция удаления нужной карточки
+  const evtTarget = evt.target; // добавили в пременную нажатую кнопку
+  const card = evtTarget.closest('.card'); // нашли родителя по классу .card
+  card.remove(); //удалили карточку
+};
