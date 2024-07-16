@@ -12,7 +12,7 @@ function createCard(name, link, alt) { // создание карточки с �
   return cardContent; // вернули готовую карточку
 };
 
-initialCards.forEach(function (card) { // функция для каждой картчки в массиве
+initialCards.forEach(function (card) { // функция рендера каждой картчки в массиве
   const cardContent = createCard(card.name, card.link, card.alt) // вызвали функцию, передали name, link и alt
   const placesList = document.querySelector('.places__list'); // нашли контейнер для карточек
   placesList.append(cardContent); // добавили карточку в конец контейнера
