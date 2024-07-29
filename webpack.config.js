@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); 
 
 module.exports = { // module.exports — это синтаксис экспорта в Node.js 
   entry: { main: './src/index.js'},
@@ -23,7 +24,30 @@ module.exports = { // module.exports — это синтаксис экспор�
     test: /\.js$/, // регулярное выражение, которое ищет все js файлы
     use: 'babel-loader', // при обработке этих файлов нужно использовать babel-loader
     exclude: '/node_modules/' // исключает папку node_modules, файлы в ней обрабатывать не нужно
-    }
+    },
+    {
+      // регулярное выражение, которое ищет все файлы с такими расширениями
+      test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+      type: 'asset/resource'
+    },
+    {
+      test: /\.css$/,       // применять это правило только к CSS-файлам
+      use: [MiniCssExtractPlugin.loader, { // при обработке этих файлов нужно использовать MiniCssExtractPlugin.loader и css-loader
+        loader: 'css-loader'
+      }]
+    },
+    {
+      // применять это правило только к CSS-файлам
+      test: /\.css$/,
+      // при обработке этих файлов нужно использовать
+      // MiniCssExtractPlugin.loader и css-loader
+      use: [MiniCssExtractPlugin.loader, {
+        loader: 'css-loader',
+        options: { importLoaders: 1 }
+      },
+        // Добавьте postcss-loader
+      'postcss-loader']
+    }, 
   ]
   },
   plugins: [
@@ -31,5 +55,6 @@ module.exports = { // module.exports — это синтаксис экспор�
       template: './src/index.html'
     }),
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin()
   ]
 }
