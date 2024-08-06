@@ -1,5 +1,5 @@
-import '../pages/index.css';
-
+import './pages/index.css';
+import {initialCards} from './scripts/cards.js';
 
 function createCard(name, link, alt, removeCardFunc) { // создание карточки с имененм, источником, альтернативным текстом и коллбэком
   const cardTemplate = document.querySelector('#card-template').content; // нашли шаблон карточки в HTML

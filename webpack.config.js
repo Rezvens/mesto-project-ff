@@ -31,22 +31,14 @@ module.exports = { // module.exports — это синтаксис экспор�
       type: 'asset/resource'
     },
     {
-      test: /\.css$/,       // применять это правило только к CSS-файлам
-      use: [MiniCssExtractPlugin.loader, { // при обработке этих файлов нужно использовать MiniCssExtractPlugin.loader и css-loader
-        loader: 'css-loader'
-      }]
-    },
-    {
-      // применять это правило только к CSS-файлам
-      test: /\.css$/,
-      // при обработке этих файлов нужно использовать
-      // MiniCssExtractPlugin.loader и css-loader
-      use: [MiniCssExtractPlugin.loader, {
+      
+      test: /\.css$/, // применять это правило только к CSS-файлам
+
+      use: [MiniCssExtractPlugin.loader, {       // при обработке этих файлов нужно использовать MiniCssExtractPlugin.loader и css-loader
         loader: 'css-loader',
         options: { importLoaders: 1 }
       },
-        // Добавьте postcss-loader
-      'postcss-loader']
+      'postcss-loader'] // Добавьте postcss-loader
     }, 
   ]
   },
