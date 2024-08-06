@@ -26,3 +26,34 @@ function removeCard(evt) { // функция удаления нужной ка�
   const card = evtTarget.closest('.card'); // нашли родителя по классу .card
   card.remove(); //удалили карточку
 };
+
+
+
+const profileEditButton = document.querySelector('.profile__edit-button');
+const popupTypeEdit = document.querySelector('.popup_type_edit');
+profileEditButton.addEventListener('click', () => {
+  popupTypeEdit.classList.toggle('popup_is-opened');
+})
+
+const profileAddButton = document.querySelector('.profile__add-button');
+const popupNewCard = document.querySelector('.popup_type_new-card');
+profileAddButton.addEventListener('click', () => {
+  popupNewCard.classList.toggle('popup_is-opened');
+})
+
+const popupTypeImage = document.querySelector('.popup_type_image');
+const popupImage = document.querySelector('.popup__image');
+
+
+const placesList = document.querySelector('.places__list');
+placesList.addEventListener('click', (evt) => {
+  if (evt.target.classList.contains('card__image')) {
+    popupTypeImage.classList.toggle('popup_is-opened');
+    popupImage.setAttribute('src', evt.target.src);
+    console.log(evt.target.src);
+  }
+})
+
+
+
+
