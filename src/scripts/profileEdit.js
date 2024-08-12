@@ -4,7 +4,6 @@ const formElement = document.forms['edit-profile'];// Воспользуйтес
 const nameInput = formElement.elements.name;// Воспользуйтесь инструментом .querySelector()
 const jobInput = formElement.elements.description;// Воспользуйтесь инструментом .querySelector()
 
-console.log(formElement);
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
 function handleFormSubmit(evt) {

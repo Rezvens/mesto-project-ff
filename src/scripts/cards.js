@@ -56,3 +56,5 @@ function removeCard(evt) { // функция удаления нужной ка�
   const card = evtTarget.closest('.card'); // нашли родителя по классу .card
   card.remove(); //удалили карточку
 };
+
+export {createCard, removeCard};
