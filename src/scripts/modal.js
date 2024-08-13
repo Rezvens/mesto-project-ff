@@ -1,58 +1,68 @@
-const profileEditButton = document.querySelector('.profile__edit-button');
-const popupTypeEdit = document.querySelector('.popup_type_edit');
-const popup = document.querySelector('.popup');
+const popupEditProfile = document.querySelector('.popup_type_edit'); // нашли попап редактирования профиля
+const popupAddNewCard = document.querySelector('.popup_type_new-card'); // нашли попап добавления новой карточки
+const popupZoomImage = document.querySelector('.popup_type_image'); // нашли попап для увеличения изображения
 
-profileEditButton.addEventListener('click', () => {
-  popupTypeEdit.classList.toggle('popup_is-opened');
-  if (popupTypeEdit) {
-    document.addEventListener('keydown', func123)
-}});
-
-
-
-const profileAddButton = document.querySelector('.profile__add-button');
-const popupNewCard = document.querySelector('.popup_type_new-card');
-
-profileAddButton.addEventListener('click', () => {
-  popupNewCard.classList.toggle('popup_is-opened');
-  if (popupNewCard) {
-    document.addEventListener('keydown', func123)
-}});
-
-function func123 (evt) {
-}
-
-const popupTypeImage = document.querySelector('.popup_type_image');
-const popupImage = document.querySelector('.popup__image');
-const popupCaption = document.querySelector('.popup_caption');
-
-
-
-const placesList = document.querySelector('.places__list');
-placesList.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('card__image')) {
-    const card = evt.target.closest('.card'); // Находим родительский элемент карточки
-    if (card) {
-      popupTypeImage.classList.toggle('popup_is-opened');
-      popupImage.setAttribute('src', evt.target.src);
-      const cardTitle = card.querySelector('.card__title'); // Ищем заголовок внутри карточки
-      console.log(cardTitle.textContent); // Выводим текст заголовка
-    }
-  }
-});
-
-// модуль закрытия попапа на кнопку
+const profileEditButton = document.querySelector('.profile__edit-button'); // нашли кнопку редактирования профиля
+const profileAddButton = document.querySelector('.profile__add-button'); // нашли кнопку добавления новой карточки
 
 const popupCloseButtons = document.querySelectorAll('.popup__close'); // ищем все кнопки закрытия попапа
-popupCloseButtons.forEach(button => { // каждой кнопке..
-  button.addEventListener('click', popupClose) // ..добавляем слушатель и передаем колбеком функцию закрытия попапа
+
+profileEditButton.addEventListener('click', () => { // добавили слушатель на кнопку для открытия попапа редактирования профиля
+  openPopup(popupEditProfile); // передали функцию открытия попапа
 });
 
-function popupClose(evt) { // функция закрытия попапа
-  const popup = evt.target.closest('.popup'); // нашли родительский блок попапа по его классу
-  popup.classList.toggle('popup_is-opened'); // закрыли попап переключив класс открытого попапа
-  document.removeEventListener('keydown', func123);
-};
-// модуль закрытия попапа на клавишу Esc
+profileAddButton.addEventListener('click', () => { // добавили слушатель на кнопку для открытия попапа редактирования профиля
+  openPopup(popupAddNewCard); // передали функцию открытия попапа
+});
 
-const openPopups = document.querySelectorAll('.popup_is-opened');
+const popupImage = document.querySelector('.popup__image');
+const popupCaption = document.querySelector('.popup__caption');
+const placesList = document.querySelector('.places__list');
+
+placesList.addEventListener('click', (evt) => { // добавляем слушатель 
+  if (evt.target.classList.contains('card__image')) {
+    openPopup(popupZoomImage);
+    const card = evt.target.closest('.card'); // Находим родительский элемент карточки
+    popupImage.setAttribute('src', evt.target.src);
+    const cardTitle = card.querySelector('.card__title'); // Ищем заголовок внутри карточки
+    popupCaption.textContent = cardTitle.textContent;
+  }
+
+  if (evt.target.classList.contains('card__like-button')) {
+    const likeButton = evt.target;
+    likeButton.classList.toggle('card__like-button_is-active');
+  };
+
+});
+
+popupCloseButtons.forEach(button => { // каждой кнопке закрытия попапа..
+  button.addEventListener('click', closePopup)
+    // ..добавляем слушатель и передаем колбеком функцию закрытия попапа
+});
+
+function openPopup(popup) {
+  popup.classList.add('popup_is-opened');
+  document.addEventListener('keydown', escHandlerKeydown);
+  popup.addEventListener('click', overlayHandler);
+}
+
+function overlayHandler(evt) {
+  if (evt.target === evt.currentTarget) {
+    closePopup();
+  }
+};
+
+function escHandlerKeydown(evt) {
+  if (evt.key === 'Escape') {
+    closePopup();
+  }
+};
+
+function closePopup() {
+  const popup = document.querySelector('.popup_is-opened');
+  popup.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', closePopup);
+  popup.removeEventListener('click', overlayHandler);
+}
+
+export {closePopup};

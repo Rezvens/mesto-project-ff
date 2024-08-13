@@ -1,28 +1,22 @@
-// Находим форму в DOM
-const formElement = document.forms['edit-profile'];// Воспользуйтесь методом querySelector()
-// Находим поля формы в DOM
-const nameInput = formElement.elements.name;// Воспользуйтесь инструментом .querySelector()
-const jobInput = formElement.elements.description;// Воспользуйтесь инструментом .querySelector()
+import { closePopup } from "./modal"; // импортировали функцию закрытия попапа
 
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
+const formElement = document.forms['edit-profile']; // нашли форму редактирования профиля
+
+const nameInput = formElement.elements.name; // нашли поле для ввода имени
+const jobInput = formElement.elements.description; // нашли поле для ввода занятия
+
+
 function handleFormSubmit(evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-                                                // Так мы можем определить свою логику отправки.
-                                                // О том, как это делать, расскажем позже.
+  evt.preventDefault(); // убрали станлартное поведение при сабмите формы
 
-    // Получите значение полей jobInput и nameInput из свойства value
-    // Выберите элементы, куда должны быть вставлены значения полей
-  const profileTitle = document.querySelector('.profile__title');
-  const profileDescription = document.querySelector('.profile__description');
-    // Вставьте новые значения с помощью textContent
-    profileTitle.textContent = nameInput.value;
-    profileDescription.textContent = jobInput.value;
 
-  const openPopup = document.querySelector('.popup_is-opened');
-  openPopup.classList.toggle('popup_is-opened');
+  const profileTitle = document.querySelector('.profile__title'); // нашли заголовок с именем
+  const profileDescription = document.querySelector('.profile__description'); // нашли описание под именем
+
+    profileTitle.textContent = nameInput.value; // присвоили текстовому содержимому заголовка имя из поля
+    profileDescription.textContent = jobInput.value; // присвоили текстовому содержимому описания занятие из поля
+
+  closePopup(); // закрыли попап
 }
 
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', handleFormSubmit); 
+formElement.addEventListener('submit', handleFormSubmit); // добавили слушатель при нажатии кнопки сабмита
