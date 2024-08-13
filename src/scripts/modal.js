@@ -1,3 +1,5 @@
+
+
 const popupEditProfile = document.querySelector('.popup_type_edit'); // нашли попап редактирования профиля
 const popupAddNewCard = document.querySelector('.popup_type_new-card'); // нашли попап добавления новой карточки
 const popupZoomImage = document.querySelector('.popup_type_image'); // нашли попап для увеличения изображения
@@ -17,23 +19,15 @@ profileAddButton.addEventListener('click', () => { // добавили слуш�
 
 const popupImage = document.querySelector('.popup__image');
 const popupCaption = document.querySelector('.popup__caption');
-const placesList = document.querySelector('.places__list');
 
-placesList.addEventListener('click', (evt) => { // добавляем слушатель 
+export function openImagePopup(evt) {
   if (evt.target.classList.contains('card__image')) {
-    openPopup(popupZoomImage);
-    const card = evt.target.closest('.card'); // Находим родительский элемент карточки
-    popupImage.setAttribute('src', evt.target.src);
-    const cardTitle = card.querySelector('.card__title'); // Ищем заголовок внутри карточки
-    popupCaption.textContent = cardTitle.textContent;
-  }
-
-  if (evt.target.classList.contains('card__like-button')) {
-    const likeButton = evt.target;
-    likeButton.classList.toggle('card__like-button_is-active');
-  };
-
-});
+  openPopup(popupZoomImage);
+  const card = evt.target.closest('.card'); // Находим родительский элемент карточки
+  popupImage.setAttribute('src', evt.target.src);
+  const cardTitle = card.querySelector('.card__title'); // Ищем заголовок внутри карточки
+  popupCaption.textContent = cardTitle.textContent;
+}}
 
 popupCloseButtons.forEach(button => { // каждой кнопке закрытия попапа..
   button.addEventListener('click', closePopup)
