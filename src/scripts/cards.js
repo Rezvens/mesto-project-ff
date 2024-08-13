@@ -1,4 +1,4 @@
-import { openImagePopup } from "./modal";
+import { openImagePopup } from "./modal"; // импортировали функцию открытия попапа с изображением
 
 export const initialCards = [
     {
