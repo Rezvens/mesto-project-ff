@@ -1,5 +1,5 @@
-import { createCard, removeCard } from "./cards";
-import { likeCard } from "./cards";
+import { createCard, removeCard } from "./card";
+import { likeCard } from "./card";
 import { closePopup, openImagePopup } from "./modal";
 
 const formElement = document.forms['new-place'];
