@@ -8,10 +8,11 @@ function createCard(name, link, alt, removeCardFunc, likeCardFunc, openImagePopu
   card.querySelector('.card__image').src = link; // добавили в link ссылку на карточку
   card.querySelector('.card__image').alt = alt; // добавили в alt альтернативный текст
 
-  const deleteButton = card.querySelector('.card__delete-button'); // нашли кнопку удаления в карточке
-  deleteButton.addEventListener('click', removeCardFunc); // добавили кнопке слушатель
+  const trashButton = card.querySelector('.card__delete-button'); // нашли кнопку удаления в карточке
+  trashButton.addEventListener('click', removeCardFunc); // добавили кнопке слушатель
   card.addEventListener('click', likeCardFunc);
   card.addEventListener('click', openImagePopupFunc);
+
   return card; // вернули готовую карточку
 };
 
