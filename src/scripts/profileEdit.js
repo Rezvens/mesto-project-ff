@@ -1,7 +1,6 @@
 import { closePopup } from "./modal"; // импортировали функцию закрытия попапа
 
 import { abc } from '../index.js'
-console.log(abc);
 
 const formElement = document.forms['edit-profile']; // нашли форму редактирования профиля
 const nameInput = formElement.elements.name; // нашли поле для ввода имени
