@@ -24,33 +24,37 @@ export function openImagePopup(evt) { // экспортировали при о�
   popupCaption.textContent = cardTitle.textContent; // опианию под изображением присваиваем заголовок карточки
 }}
 
-popupCloseButtons.forEach(button => { // каждой кнопке закрытия попапа..
-  button.addEventListener('click', closePopup) // ..добавляем слушатель и передаем колбеком функцию закрытия попапа
+popupCloseButtons.forEach(button => { // каждой кнопке закрытия попапа
+  button.addEventListener('click', (evt) => { // добавили лисенер, который при клике
+    const openedPopup = evt.target.closest('.popup'); // ищет ближайшего родителя с классом popup
+    closePopup(openedPopup); // и передает его в функцию закрытия попапа
+  }) // ..добавляем слушатель и передаем колбеком функцию закрытия попапа
 });
 
 function openPopup(popup) { // функция открытия попапа, который передали как аргумент
   popup.classList.add('popup_is-opened'); // присвоили этому попапу класс открытия
-  document.addEventListener('keydown', escHandlerKeydown); // добавили слушатель нажатия клавиш, пока попап открыт
+  document.addEventListener('keydown', escHandler); // добавили слушатель нажатия клавиш, пока попап открыт
   popup.addEventListener('click', overlayHandler); // добавили слушатель клика на оверлей, пока попап открыт
 }
 
 function overlayHandler(evt) { // функция закрытия попапа на оверлей
   if (evt.target === evt.currentTarget) { // если клик на оверлей, то..
-    closePopup(); // закрыть попап
+    const openedPopup = evt.target.closest('.popup'); // ищет ближайшего родителя с классом popup
+    closePopup(openedPopup); // и передает его в функцию закрытия попапа
   }
 };
 
-function escHandlerKeydown(evt) { // функция закрытия попапа на Esc
+function escHandler(evt) { // функция закрытия попапа на Esc
   if (evt.key === 'Escape') { // если клавиша Esc, то..
-    closePopup();// ..закрыть попап
+    const openedPopup = document.querySelector('.popup_is-opened');
+    closePopup(openedPopup);
   }
 };
 
-function closePopup() { // функция закрытия попапа
-  const popup = document.querySelector('.popup_is-opened'); // нашли открытый попап
-  popup.classList.remove('popup_is-opened'); // убрали у него класс открытия
-  document.removeEventListener('keydown', closePopup); // удалили слушатель клавишы Esc
-  popup.removeEventListener('click', overlayHandler); // удалили слушатель клика на оверлей
+function closePopup(openedPopup) { // функция закрытия попапа
+  openedPopup.classList.remove('popup_is-opened'); // убрали у него класс открытия
+  document.removeEventListener('keydown', escHandler); // добавили слушатель нажатия клавиш, пока попап открыт
+  openedPopup.removeEventListener('click', overlayHandler); // удалили слушатель клика на оверлей
 }
 
 export {closePopup, openPopup};

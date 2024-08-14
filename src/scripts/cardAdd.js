@@ -1,15 +1,18 @@
 import { createCard, removeCard } from "./cards";
+import { likeCard } from "./cards";
+import { closePopup, openImagePopup } from "./modal";
 
 const formElement = document.forms['new-place'];
 const nameInput = formElement.elements['place-name'];
 const linkInput = formElement.elements.link;
+
 function handleFormSubmit(evt) {
   evt.preventDefault();
-  const cardContent = createCard(nameInput.value, linkInput.value, 'defaultValue', removeCard);
+  const cardContent = createCard(nameInput.value, linkInput.value, nameInput.value, removeCard, likeCard, openImagePopup);
   const placesList = document.querySelector('.places__list');
   placesList.prepend(cardContent);
-  const openPopup = document.querySelector('.popup_is-opened');
-  openPopup.classList.toggle('popup_is-opened');
+  const openedPopup = evt.target.closest('.popup');
+  closePopup(openedPopup);
   formElement.reset();
 }
 
