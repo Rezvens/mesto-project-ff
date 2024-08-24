@@ -1,6 +1,6 @@
-export { isValid };
+export { enableValidation, clearValidation };
 
-enableValidation();
+
 
 function enableValidation() {
   const formList = Array.from(document.querySelectorAll('.popup__form'));
@@ -68,7 +68,6 @@ function toggleButtonState(inputList, button) {
   }
 }
 
+function clearValidation(form, ) {
 
-
-
-
+}

@@ -4,8 +4,8 @@ import { initialCards } from './scripts/cards.js'
 import { createCard, removeCard, likeCard} from './scripts/card.js';
 import { openPopup, closePopup } from './scripts/modal.js';
 import { profileEditForm } from  './scripts/profileEditForm.js'
-import './scripts/frmvldtn.js';
-import { isValid } from './scripts/frmvldtn.js';
+import './scripts/validatoion.js';
+import { enableValidation, clearValidation } from './scripts/validatoion.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -67,3 +67,7 @@ popupCloseButtons.forEach(button => {
     closePopup(openedPopup); 
   }) 
 });
+
+enableValidation();
+
+clearValidation();
