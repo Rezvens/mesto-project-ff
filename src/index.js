@@ -4,6 +4,7 @@ import { initialCards } from './scripts/cards.js'
 import { createCard, removeCard, likeCard} from './scripts/card.js';
 import { openPopup, closePopup } from './scripts/modal.js';
 import { profileEditForm } from  './scripts/profileEditForm.js'
+import './scripts/frmvldtn.js'
 
 const placesList = document.querySelector('.places__list');
 

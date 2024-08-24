@@ -20,3 +20,15 @@
     line-height: 15px;
   }
 }
+
+.popup__input-error {
+  border-bottom: red solid 1px;
+}
+
+.input__error {
+  
+}
+
+.input__error-active {
+  color: red;
+}
