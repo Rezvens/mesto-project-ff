@@ -9,7 +9,10 @@ function cardAddForm(cardForm, nameInput, linkInput, placesList, createCard, rem
 
   const openedPopup = evt.target.closest('.popup');
   closePopup(openedPopup);
+  const button = openedPopup.querySelector('.popup__button');
+  button.classList.add('button-inactive');
 
   cardForm.reset();
+
 }
 

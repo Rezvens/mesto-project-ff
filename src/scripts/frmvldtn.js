@@ -1,3 +1,5 @@
+export { isValid };
+
 enableValidation();
 
 function enableValidation() {
@@ -10,15 +12,24 @@ function enableValidation() {
 
 function setEventListeners(form) {
   const inputList = Array.from(form.querySelectorAll('.popup__input'));
+  const button = form.querySelector('.button');
+  toggleButtonState(inputList, button);
 
   inputList.forEach((input) => {
     input.addEventListener('input', () => {
       isValid(form, input);
+      toggleButtonState(inputList, button);
     })
   })
 }
 
 function isValid(form, input) {
+  if (input.validity.patternMismatch) {
+    input.setCustomValidity(input.dataset.errorMessage);
+  } else {
+    input.setCustomValidity('');
+  }
+
   if (!input.validity.valid) {
     showInputError(form, input, input.validationMessage);
   } else {
@@ -38,6 +49,23 @@ function hideInputError(form, input) {
   input.classList.remove('popup__input-error');
   error.classList.remove('input_error-active');
   error.textContent = '';
+}
+
+function hasInvalidInput(inputList) {
+  return inputList.some((input) => {
+    return !input.validity.valid;
+  })
+}
+
+function toggleButtonState(inputList, button) {
+  if (hasInvalidInput(inputList)) {
+    button.setAttribute('disabled', '');
+    button.classList.add('button-inactive');
+    button.classList.remove('hover');
+  } else {
+    button.removeAttribute('disabled', '');
+    button.classList.remove('button-inactive');
+  }
 }
 
 
