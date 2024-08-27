@@ -24,6 +24,20 @@ function likeCard(evt) {
 
 function removeCard(evt) { 
   const trashButton = evt.target; 
-  const card = trashButton.closest('.card'); 
-  card.remove(); 
+  const card = trashButton.closest('.card');
+  console.log(card)
+  card.remove();
+
+  // fetch(`https://nomoreparties.co/v1/wff-cohort-21/cards/${_id}`, {
+  //   method: 'DELETE',
+  //   headers: {
+  //     authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify({
+  //     name: nameInput.value,
+  //     about: jobInput.value
+  //   })
+  // }); 
+
 };
