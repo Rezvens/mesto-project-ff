@@ -7,8 +7,21 @@ function cardAddForm(cardForm, nameInput, linkInput, placesList, createCard, rem
 
   placesList.prepend(card);
 
+  fetch('https://nomoreparties.co/v1/wff-cohort-21/cards', {
+    method: 'POST',
+    headers: {
+      authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: nameInput.value,
+      link: linkInput.value
+    })
+  }); 
+
   const openedPopup = evt.target.closest('.popup');
   closePopup(openedPopup);
+
   const button = openedPopup.querySelector('.popup__button');
   button.classList.add('button-inactive');
 
