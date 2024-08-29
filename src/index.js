@@ -1,6 +1,6 @@
 import './pages/index.css';
 import { cardAddForm } from './scripts/cardAddForm.js';
-import { initialCards } from './scripts/cards.js'
+// import { initialCards } from './scripts/cards.js'
 import { createCard, removeCard, likeCard} from './scripts/card.js';
 import { openPopup, closePopup } from './scripts/modal.js';
 import { profileEditForm } from  './scripts/profileEditForm.js'
@@ -70,62 +70,29 @@ enableValidation();
 
 clearValidation();
 
+import { cardsArr, profileInfo } from './scripts/api.js';
 
 
 
+profileInfo
+  .then(res => res.json())
+  .then((profile) => {
+    profileTitle.textContent = profile.name;
+    profileDescription.textContent = profile.about;
+    profileImage.src = profile.avatar;
+    profileTitle._id = profile._id;
+    // console.log(profile._id)
+  });
 
-
-
-
-
-// API
-
-// Токен: e64358cb-e014-41f7-8927-e967308e67f0
-// Идентификатор группы: wff-cohort-21
-
-// ЗАГРУЗКА КАРТОЧЕК С СЕРВЕРА
-const cardsfetch = fetch('https://nomoreparties.co/v1/wff-cohort-21/cards', {
-  headers: {
-    authorization: 'e64358cb-e014-41f7-8927-e967308e67f0'
-  }
-})
-  .then(Response.ok)
+  cardsArr
   .then(result => result.json())
   .then((cards) => {
     cards.forEach((card) => { 
       const cardContent = createCard(card.name, card.link, card.alt, removeCard, likeCard, openImagePopup) 
-      placesList.append(cardContent); 
+      placesList.append(cardContent);
+      if (card.owner._id === profileTitle._id) {
+        console.log(1);
+      }
     });
   });
-
-
-// ЗАУГРУЗКА ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ С СЕРВЕРА
-const profileFetch = fetch('https://nomoreparties.co/v1/wff-cohort-21/users/me', {
-  headers: {
-    authorization: 'e64358cb-e014-41f7-8927-e967308e67f0'
-  }
-})
-.then(res => res.json())
-.then((profile) => {
-  profileTitle.textContent = profile.name;
-  profileDescription.textContent = profile.about;
-  profileImage.src = profile.avatar;
-  console.log(profile._id)
-});
-
-// const promises = [cardsfetch, profileFetch];
-
-// Promise.all(promises)
-//   .then((results) => {
-//     const cards = results[0];
-//     cards.forEach((card) => { 
-//     const cardContent = createCard(card.name, card.link, card.alt, removeCard, likeCard, openImagePopup) 
-//     placesList.append(cardContent); 
-//   })
-//     const profile = results[1];
-//     profileTitle.textContent = profile.name;
-//     profileDescription.textContent = profile.about;
-//     profileImage.src = profile.avatar;
-//   })
-//   .catch(console.log('Ошибка в загрузке данных'))
 
