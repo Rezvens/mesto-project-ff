@@ -1,20 +1,29 @@
-export {cardsArr, profileInfo};
+export {cardsData, profileData};
 
-// ЗАГРУЗКА КАРТОЧЕК С СЕРВЕРА
-const cardsArr = fetch('https://nomoreparties.co/v1/wff-cohort-21/cards', {
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/wff-cohort-21',
   headers: {
-    authorization: 'e64358cb-e014-41f7-8927-e967308e67f0'
+    authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
+    'Content-Type': 'application/json'
   }
-})
-
+}
 
 // ЗАУГРУЗКА ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ С СЕРВЕРА
-const profileInfo = fetch('https://nomoreparties.co/v1/wff-cohort-21/users/me', {
+const profileData = fetch(`${config.baseUrl}/users/me`, {
+  headers: config.headers
+})
+  .then(res => res.json()
+)
+
+
+// ЗАГРУЗКА КАРТОЧЕК С СЕРВЕРА
+const cardsData = fetch('https://nomoreparties.co/v1/wff-cohort-21/cards', {
   headers: {
     authorization: 'e64358cb-e014-41f7-8927-e967308e67f0'
   }
 })
-
+.then(res => res.json()
+)
 
 // const promises = [cardsfetch, profileFetch];
 

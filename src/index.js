@@ -70,29 +70,24 @@ enableValidation();
 
 clearValidation();
 
-import { cardsArr, profileInfo } from './scripts/api.js';
+import { cardsData, profileData } from './scripts/api.js';
 
-
-
-profileInfo
-  .then(res => res.json())
-  .then((profile) => {
-    profileTitle.textContent = profile.name;
-    profileDescription.textContent = profile.about;
-    profileImage.src = profile.avatar;
-    profileTitle._id = profile._id;
-    // console.log(profile._id)
+profileData
+.then((profileData) => {
+    profileTitle.textContent = profileData.name;
+    profileDescription.textContent = profileData.about;
+    profileImage.src = profileData.avatar;
+    profileTitle._id = profileData._id;
   });
 
-  cardsArr
-  .then(result => result.json())
+console.log(profileTitle.src)
+
+  cardsData
   .then((cards) => {
     cards.forEach((card) => { 
       const cardContent = createCard(card.name, card.link, card.alt, removeCard, likeCard, openImagePopup) 
       placesList.append(cardContent);
-      if (card.owner._id === profileTitle._id) {
-        console.log(1);
-      }
+        // console.log(card._id);
     });
   });
 

@@ -8,7 +8,8 @@ function createCard(name, link, alt, removeCardFunc, likeCardFunc, openImagePopu
   card.querySelector('.card__image').src = link; 
   card.querySelector('.card__image').alt = alt; 
 
-  const trashButton = card.querySelector('.card__delete-button'); 
+  const trashButton = card.querySelector('.card__delete-button');
+  // если id карточки совпадает с id пользователя, то скрывать корзину, иначе вешаем листенер
   trashButton.addEventListener('click', removeCardFunc); 
   card.addEventListener('click', likeCardFunc);
   card.addEventListener('click', openImagePopupFunc);
