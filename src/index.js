@@ -1,3 +1,4 @@
+import { cardsData, profileData } from './scripts/api.js';
 import './pages/index.css';
 import { cardAddForm } from './scripts/cardAddForm.js';
 // import { initialCards } from './scripts/cards.js'
@@ -70,24 +71,28 @@ enableValidation();
 
 clearValidation();
 
-import { cardsData, profileData } from './scripts/api.js';
+let globalProileId;
 
 profileData
 .then((profileData) => {
     profileTitle.textContent = profileData.name;
     profileDescription.textContent = profileData.about;
     profileImage.src = profileData.avatar;
-    profileTitle._id = profileData._id;
-  });
+    globalProileId = profileData._id;
+  })
+  .catch(error => console.log(error));
 
-console.log(profileTitle.src)
+console.log(globalProileId);
 
   cardsData
   .then((cards) => {
     cards.forEach((card) => { 
-      const cardContent = createCard(card.name, card.link, card.alt, removeCard, likeCard, openImagePopup) 
+      const cardContent = createCard(card._id, card.likes, card.name, card.link, card.alt, removeCard, likeCard, openImagePopup) 
       placesList.append(cardContent);
-        // console.log(card._id);
+        // console.log(card.name);
     });
-  });
+  })
+  .catch(error => console.log(error));
+
+
 
