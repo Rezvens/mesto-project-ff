@@ -12,16 +12,6 @@
   margin: 0 29px 0 0;
 }
 
-.profile__image::after {
-  content: '';
-  display: block;
-  position: absolute;
-  inset: 0;
-  background-color: red; /* Затемнение (черный с прозрачностью) */
-  border-radius: 50%; /* Чтобы затемнение было круглым */
-  z-index: 1; /* Псевдоэлемент будет выше изображения */
-}
-
 @media screen and (max-width: 740px) {
   .profile__image {
     margin: 0 10px 0 0;

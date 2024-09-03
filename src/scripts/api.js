@@ -1,5 +1,3 @@
-export {cardsData, profileData};
-
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/wff-cohort-21',
   headers: {
@@ -12,17 +10,30 @@ const config = {
 const profileData = fetch(`${config.baseUrl}/users/me`, {
   headers: config.headers
 })
-  .then(res => res.json())
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(res.status);
+    }
+  })
 
 // ЗАГРУЗКА КАРТОЧЕК С СЕРВЕРА
 const cardsData = fetch(`${config.baseUrl}/cards`, {
   headers: config.headers
 })
-.then(res => res.json())
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(res.status);
+    }
+  })
 
-// const promises = [cardsfetch, profileFetch];
+export const serverData = [profileData, cardsData];
 
-// Promise.all(promises)
+
+// Promise.all(serverData)
 //   .then((results) => {
 //     const cards = results[0];
 //     cards.forEach((card) => { 

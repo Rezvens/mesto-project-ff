@@ -1,20 +1,18 @@
-import { cardsData, profileData } from './scripts/api.js';
+
 import './pages/index.css';
 import { cardAddForm } from './scripts/cardAddForm.js';
-// import { initialCards } from './scripts/cards.js'
 import { createCard, removeCard, likeCard} from './scripts/card.js';
 import { openPopup, closePopup } from './scripts/modal.js';
-import { profileEditForm } from  './scripts/profileEditForm.js'
+import { profileEditForm, editAvatar } from  './scripts/profileEditForm.js'
 import './scripts/validation.js';
 import { enableValidation, clearValidation } from './scripts/validation.js';
 
 const placesList = document.querySelector('.places__list');
 
-
-
 const profileForm = document.forms['edit-profile']; 
 const profileTitle = document.querySelector('.profile__title'); 
-const profileDescription = document.querySelector('.profile__description'); 
+const profileDescription = document.querySelector('.profile__description');
+const avatarForm = document.forms['edit-avatar'];
 const profileImage = document.querySelector('.profile__image');
 
 profileForm.addEventListener('submit', (evt) => {
@@ -40,10 +38,19 @@ cardForm.addEventListener('submit', (evt) => {
 
 const profileAddButton = document.querySelector('.profile__add-button'); 
 const popupAddNewCard = document.querySelector('.popup_type_new-card');
+const popupEditAvatar = document.querySelector('.popup_type_avatar');
 
 profileAddButton.addEventListener('click', () => { 
   openPopup(popupAddNewCard); 
 });
+
+profileImage.addEventListener('click', () => {
+  openPopup(popupEditAvatar);
+})
+
+avatarForm.addEventListener('submit', (evt) => {
+  editAvatar(avatarForm, profileImage, closePopup, evt)
+})
 
 const popupZoomImage = document.querySelector('.popup_type_image'); 
 const popupImage = document.querySelector('.popup__image'); 
@@ -71,28 +78,21 @@ enableValidation();
 
 clearValidation();
 
-let globalProileId;
+import { serverData } from './scripts/api.js';
 
-profileData
-.then((profileData) => {
-    profileTitle.textContent = profileData.name;
-    profileDescription.textContent = profileData.about;
-    profileImage.src = profileData.avatar;
-    globalProileId = profileData._id;
-  })
-  .catch(error => console.log(error));
+Promise.all(serverData)
+  .then((results) => {
 
-console.log(globalProileId);
+    const profile = results[0];
+    profileTitle.textContent = profile.name;
+    profileDescription.textContent = profile.about;
+    profileImage.src = profile.avatar;
+    const profileId = profile._id;
 
-  cardsData
-  .then((cards) => {
+    const cards = results[1];
     cards.forEach((card) => { 
-      const cardContent = createCard(card._id, card.likes, card.name, card.link, card.alt, removeCard, likeCard, openImagePopup) 
-      placesList.append(cardContent);
-        // console.log(card.name);
-    });
+    const cardContent = createCard(profileId, card.owner._id, card._id, card.likes, card.name, card.link, card.alt, removeCard, likeCard, openImagePopup) 
+    placesList.append(cardContent); 
   })
-  .catch(error => console.log(error));
-
-
-
+  })
+  .catch(err => console.log(`Ошибка ${err}`))
