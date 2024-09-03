@@ -3,7 +3,7 @@ export { cardAddForm };
 function cardAddForm(cardForm, nameInput, linkInput, placesList, createCard, removeCard, closePopup, openImagePopup, likeCard, evt) {
   evt.preventDefault();
 
-  const card = createCard('', '', '', '0', nameInput.value, linkInput.value, nameInput.value, removeCard, likeCard, openImagePopup);
+  const card = createCard('', '', '', [], nameInput.value, linkInput.value, nameInput.value, removeCard, likeCard, openImagePopup);
 
   placesList.prepend(card);
 

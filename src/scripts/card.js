@@ -13,7 +13,6 @@ function createCard(profileId, ownerId, id, likes, name, link, alt, removeCardFu
   card.likes = likes;
 
   const trashButton = card.querySelector('.card__delete-button');
-  // если id карточки совпадает с id пользователя, то скрывать корзину, иначе вешаем листенер
   if (ownerId === profileId) {
     trashButton.addEventListener('click', removeCardFunc);
   } else {

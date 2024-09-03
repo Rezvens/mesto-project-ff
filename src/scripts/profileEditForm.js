@@ -41,14 +41,12 @@ function editAvatar(form, profileImage, closePopup, evt) {
   .then(res => {
     if (res.ok) {
       profileImage.src = form.elements.avalink.value;
-      console.log('ok')
+      form.reset();
     } else {
       return Promise.reject(res.status);
     }
   });
-
+ 
   const openedPopup = evt.target.closest('.popup');
   closePopup(openedPopup);
-
-  form.reset();
 }
