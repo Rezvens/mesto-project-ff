@@ -1,15 +1,13 @@
 export { profileEditForm, editAvatar };
 
-function profileEditForm(form, title, description, closePopup, evt) {
+function profileEditForm(form, title, description, closePopup, renderLoading, evt) {
   evt.preventDefault();
+  renderLoading(form, true);
 
   const nameInput = form.elements.name; 
   const jobInput = form.elements.description; 
   
-  title.textContent = nameInput.value; // поменяли локально имя
-  description.textContent = jobInput.value;  // и описание
-
-  fetch('https://nomoreparties.co/v1/wff-cohort-21/users/me', { // загрузили обновленные данные на сервер
+  fetch('https://nomoreparties.co/v1/wff-cohort-21/users/me', {
     method: 'PATCH',
     headers: {
       authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
@@ -19,14 +17,25 @@ function profileEditForm(form, title, description, closePopup, evt) {
       name: nameInput.value,
       about: jobInput.value
     })
-  }); 
-
-  const openedPopup = evt.target.closest('.popup_is-opened'); 
-  closePopup(openedPopup); 
+  })
+    .then(res => {
+      if (res.ok) {
+        title.textContent = nameInput.value;
+        description.textContent = jobInput.value;
+      } else {
+        return Promise.reject(res.status);
+      }
+    })
+    .finally(() => {
+      const openedPopup = evt.target.closest('.popup_is-opened'); 
+      closePopup(openedPopup);
+      renderLoading(form, false);
+    })
 }
 
-function editAvatar(form, profileImage, closePopup, evt) {
+function editAvatar(form, profileImage, closePopup, renderLoading, evt) {
   evt.preventDefault();
+  renderLoading(form, true);
 
   fetch('https://nomoreparties.co/v1/wff-cohort-21/users/me/avatar', { // загрузили обновленные данные на сервер
   method: 'PATCH',
@@ -40,13 +49,15 @@ function editAvatar(form, profileImage, closePopup, evt) {
 })
   .then(res => {
     if (res.ok) {
-      profileImage.src = form.elements.avalink.value;
+      profileImage.style.backgroundImage = `url(${form.elements.avalink.value}`;
       form.reset();
     } else {
       return Promise.reject(res.status);
     }
-  });
- 
-  const openedPopup = evt.target.closest('.popup');
-  closePopup(openedPopup);
+  })
+  .finally(() => {
+    const openedPopup = evt.target.closest('.popup');
+    closePopup(openedPopup);
+    renderLoading(form, false);
+  })
 }

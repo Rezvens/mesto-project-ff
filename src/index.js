@@ -2,10 +2,10 @@
 import './pages/index.css';
 import { cardAddForm } from './scripts/cardAddForm.js';
 import { createCard, removeCard, likeCard} from './scripts/card.js';
-import { openPopup, closePopup } from './scripts/modal.js';
+import { openPopup, closePopup, renderLoading } from './scripts/modal.js';
 import { profileEditForm, editAvatar } from  './scripts/profileEditForm.js'
 import './scripts/validation.js';
-import { enableValidation, clearValidation } from './scripts/validation.js';
+import { enableValidation } from './scripts/validation.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -16,7 +16,7 @@ const avatarForm = document.forms['edit-avatar'];
 const profileImage = document.querySelector('.profile__image');
 
 profileForm.addEventListener('submit', (evt) => {
-  profileEditForm(profileForm, profileTitle, profileDescription, closePopup, evt);
+  profileEditForm(profileForm, profileTitle, profileDescription, closePopup, renderLoading, evt);
 });
 
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -49,7 +49,7 @@ profileImage.addEventListener('click', () => {
 })
 
 avatarForm.addEventListener('submit', (evt) => {
-  editAvatar(avatarForm, profileImage, closePopup, evt)
+  editAvatar(avatarForm, profileImage, closePopup, renderLoading, evt)
 })
 
 const popupZoomImage = document.querySelector('.popup_type_image'); 
@@ -74,9 +74,14 @@ popupCloseButtons.forEach(button => {
   }) 
 });
 
-enableValidation();
-
-clearValidation();
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input-error',
+  errorClass: 'input__error-active'
+});
 
 import { serverData } from './scripts/api.js';
 
@@ -86,7 +91,7 @@ Promise.all(serverData)
     const profile = results[0];
     profileTitle.textContent = profile.name;
     profileDescription.textContent = profile.about;
-    profileImage.src = profile.avatar;
+    profileImage.style.backgroundImage = `url(${profile.avatar}`;
     const profileId = profile._id;
 
     const cards = results[1];

@@ -2,11 +2,10 @@ export { cardAddForm };
 
 function cardAddForm(cardForm, nameInput, linkInput, placesList, createCard, removeCard, closePopup, openImagePopup, likeCard, evt) {
   evt.preventDefault();
+  const openedPopup = evt.target.closest('.popup');
+  const saveButton = openedPopup.querySelector('.popup__button');
 
-  const card = createCard('', '', '', [], nameInput.value, linkInput.value, nameInput.value, removeCard, likeCard, openImagePopup);
-
-  placesList.prepend(card);
-
+  saveButton.textContent = 'Сохранение...';
   fetch('https://nomoreparties.co/v1/wff-cohort-21/cards', {
     method: 'POST',
     headers: {
@@ -17,15 +16,21 @@ function cardAddForm(cardForm, nameInput, linkInput, placesList, createCard, rem
       name: nameInput.value,
       link: linkInput.value
     })
-  }); 
+  })
+  .then(res => {
+    if (res.ok) {
+      const card = createCard('', '', '', [], nameInput.value, linkInput.value, nameInput.value, removeCard, likeCard, openImagePopup);
+      placesList.prepend(card);
+    } else {
+      return Promise.reject(res.status);
+    }
+  })
+  .finally(() => {
 
-  const openedPopup = evt.target.closest('.popup');
-  closePopup(openedPopup);
-
-  const button = openedPopup.querySelector('.popup__button');
-  button.classList.add('button-inactive');
-
-  cardForm.reset();
-
+    closePopup(openedPopup);
+    saveButton.textContent = 'Сохранить';
+    saveButton.classList.add('button-inactive');
+    cardForm.reset();
+  })
 }
 

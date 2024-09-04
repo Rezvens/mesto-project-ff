@@ -25,10 +25,13 @@
   border-bottom: red solid 1px;
 }
 
-.input__error {
-  
+.input__error-active {
+  position: absolute;
+  display: block;
+  color: red;
+  font-size: 12px;
 }
 
-.input__error-active {
-  color: red;
+.input__error-active:first-of-type {
+  margin-top: -10px;
 }

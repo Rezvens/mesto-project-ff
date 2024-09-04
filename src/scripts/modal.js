@@ -1,4 +1,4 @@
-export {closePopup, openPopup};
+export {closePopup, openPopup, renderLoading};
 
 function openPopup(popup) { // to-do валидировать поля после открытия попапа
   popup.classList.add('popup_is-opened'); 
@@ -25,3 +25,12 @@ function closePopup(openedPopup) {
   document.removeEventListener('keydown', escHandler); 
   openedPopup.removeEventListener('mousedown', overlayHandler); 
 };
+
+function renderLoading(form, isLoading) {
+  const saveButton = form.querySelector('.button');
+  if (isLoading) {
+    saveButton.textContent = 'Сохранение...';
+  } else {
+    saveButton.textContent = 'Сохранить';
+  }
+}

@@ -1,4 +1,4 @@
-export { enableValidation, clearValidation };
+export { enableValidation };
 
 
 
@@ -66,8 +66,4 @@ function toggleButtonState(inputList, button) {
     button.removeAttribute('disabled', '');
     button.classList.remove('button-inactive');
   }
-}
-
-function clearValidation(form, ) {
-
 }
