@@ -61,7 +61,7 @@ function openImagePopup(evt) {
   openPopup(popupZoomImage); 
   const card = evt.target.closest('.card'); 
   popupImage.setAttribute('src', evt.target.src); 
-  // popupImage.setAttribute('alt', 'ватафак')
+  popupImage.setAttribute('alt', evt.target.alt);
   const cardTitle = card.querySelector('.card__title'); 
   popupCaption.textContent = cardTitle.textContent; 
 }};
