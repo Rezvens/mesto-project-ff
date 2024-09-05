@@ -1,3 +1,4 @@
+import { deleteDataCard, putDataLikeCard, deleteDataLikeCard } from "./api";
 export {createCard, removeCard, likeCard};
 
 function createCard(profileId, ownerId, id, likes, name, link, alt, removeCardFunc, likeCardFunc, openImagePopupFunc) { 
@@ -13,83 +14,53 @@ function createCard(profileId, ownerId, id, likes, name, link, alt, removeCardFu
   card.likes = likes;
 
   const trashButton = card.querySelector('.card__delete-button');
-  if (ownerId === profileId) {
-    trashButton.addEventListener('click', removeCardFunc);
-  } else {
-    trashButton.classList.add('visually-hidden')
-  }
+  if (ownerId === profileId) { trashButton.addEventListener('click', removeCardFunc) } else { trashButton.classList.add('visually-hidden') }
 
   card.addEventListener('click', likeCardFunc);
   card.likes.some((like) => {
-    if (like._id === profileId) {
-      const likeButton = card.querySelector('.card__like-button')
-      likeButton.classList.add('card__like-button_is-active')
-    }
-  })
-
+  if (like._id === profileId) {
+    const likeButton = card.querySelector('.card__like-button')
+    likeButton.classList.add('card__like-button_is-active')
+  }})
   card.addEventListener('click', openImagePopupFunc);
   return card;
-
-};
+}
 
 function likeCard(evt) {
   if (evt.target.classList.contains('card__like-button')) {
     const likeButton = evt.target;
     const card = likeButton.closest('.card');
     const likesCount = card.querySelector('.likes')
-    
 
     if (!likeButton.classList.contains('card__like-button_is-active')) {
-      fetch(`https://nomoreparties.co/v1/wff-cohort-21/cards/likes/${card._id}`, {
-        method: 'PUT',
-        headers: {
-          authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
-        } 
-      })
-      .then(res => {
-        if (res.ok) {
+      putDataLikeCard(card._id)
+      .then(() => {
           likeButton.classList.add('card__like-button_is-active');
-          likesCount.textContent = Number(likesCount.textContent) + 1
-        } else {
-          return Promise.reject(res.status);
-        }
+          likesCount.textContent = Number(likesCount.textContent) + 1;
+      })
+      .catch(error => {
+        console.log(`Ошибка ${error}`);
       })
     } else {
-      fetch(`https://nomoreparties.co/v1/wff-cohort-21/cards/likes/${card._id}`, {
-        method: 'DELETE',
-        headers: {
-          authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
-        }
-      })
-      .then(res => {
-        if (res.ok) {
+      deleteDataLikeCard(card._id)
+      .then(() => {
           likeButton.classList.remove('card__like-button_is-active');
-          likesCount.textContent = Number(likesCount.textContent) - 1
-        } else {
-          return Promise.reject(res.status);
-        }
+          likesCount.textContent = Number(likesCount.textContent) - 1;
       })
-    }
+      .catch(error => {
+        console.log(`Ошибка ${error}`);
+      })}
   }
-};
+}
 
-function removeCard(evt) { 
-  const trashButton = evt.target; 
+function removeCard(evt) {
+  const trashButton = evt.target;
   const card = trashButton.closest('.card');
-
-
-  fetch(`https://nomoreparties.co/v1/wff-cohort-21/cards/${card._id}`, {
-    method: 'DELETE',
-    headers: {
-      authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
-      'Content-Type': 'application/json'
-    }
+  deleteDataCard(card._id)
+  .then(() => {
+    card.remove();
   })
-  .then(res => {
-    if (res.ok) {
-      card.remove();
-    } else {
-      return Promise.reject(res.status);
-    }
-  }); 
-};
+  .catch(error => {
+    console.log(`Ошибка ${error}`);
+  })
+}

@@ -2,17 +2,17 @@ export { enableValidation };
 
 
 
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
+function enableValidation(settings) {
+  const formList = Array.from(document.querySelectorAll(settings.formSelector));
 
   formList.forEach((form) => {
-    setEventListeners(form);
+    setEventListeners(form, settings);
   })
 }
 
-function setEventListeners(form) {
-  const inputList = Array.from(form.querySelectorAll('.popup__input'));
-  const button = form.querySelector('.button');
+function setEventListeners(form, settings) {
+  const inputList =  Array.from(form.querySelectorAll(settings.inputSelector));
+  const button = form.querySelector(settings.submitButtonSelector);
   toggleButtonState(inputList, button);
 
   inputList.forEach((input) => {

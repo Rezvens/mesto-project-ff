@@ -1,3 +1,4 @@
+import { patchDataProfile, patchDataAvatar } from "./api";
 export { profileEditForm, editAvatar };
 
 function profileEditForm(form, title, description, closePopup, renderLoading, evt) {
@@ -7,28 +8,17 @@ function profileEditForm(form, title, description, closePopup, renderLoading, ev
   const nameInput = form.elements.name; 
   const jobInput = form.elements.description; 
   
-  fetch('https://nomoreparties.co/v1/wff-cohort-21/users/me', {
-    method: 'PATCH',
-    headers: {
-      authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: nameInput.value,
-      about: jobInput.value
-    })
-  })
-    .then(res => {
-      if (res.ok) {
-        title.textContent = nameInput.value;
-        description.textContent = jobInput.value;
-      } else {
-        return Promise.reject(res.status);
-      }
-    })
-    .finally(() => {
+  patchDataProfile(nameInput.value, jobInput.value)
+    .then(() => {
+      title.textContent = nameInput.value;
+      description.textContent = jobInput.value;
       const openedPopup = evt.target.closest('.popup_is-opened'); 
       closePopup(openedPopup);
+    })
+    .catch(error => {
+      console.log(`Ошибка ${error}`);
+    })
+    .finally(() => {
       renderLoading(form, false);
     })
 }
@@ -37,27 +27,17 @@ function editAvatar(form, profileImage, closePopup, renderLoading, evt) {
   evt.preventDefault();
   renderLoading(form, true);
 
-  fetch('https://nomoreparties.co/v1/wff-cohort-21/users/me/avatar', { // загрузили обновленные данные на сервер
-  method: 'PATCH',
-  headers: {
-    authorization: 'e64358cb-e014-41f7-8927-e967308e67f0',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    avatar: form.elements.avalink.value
-  })
-})
-  .then(res => {
-    if (res.ok) {
+  patchDataAvatar(form.elements.avalink.value)
+    .then(() => {
       profileImage.style.backgroundImage = `url(${form.elements.avalink.value}`;
+      const openedPopup = evt.target.closest('.popup');
+      closePopup(openedPopup);
       form.reset();
-    } else {
-      return Promise.reject(res.status);
-    }
-  })
-  .finally(() => {
-    const openedPopup = evt.target.closest('.popup');
-    closePopup(openedPopup);
-    renderLoading(form, false);
-  })
-}
+    })
+    .catch(error => {
+      console.log(`Ошибка ${error}`);
+    })
+    .finally(() => {
+      renderLoading(form, false);
+    })
+}   

@@ -1,4 +1,4 @@
-
+import { deleteDataCard } from './scripts/api.js';
 import './pages/index.css';
 import { cardAddForm } from './scripts/cardAddForm.js';
 import { createCard, removeCard, likeCard} from './scripts/card.js';
@@ -33,7 +33,7 @@ const nameInput = cardForm.elements['place-name'];
 const linkInput = cardForm.elements.link;
 
 cardForm.addEventListener('submit', (evt) => {
-  cardAddForm(cardForm, nameInput, linkInput, placesList, createCard, removeCard, closePopup, openImagePopup, likeCard, evt);
+  cardAddForm(renderLoading, cardForm, nameInput, linkInput, placesList, createCard, removeCard, closePopup, openImagePopup, likeCard, evt);
 }); 
 
 const profileAddButton = document.querySelector('.profile__add-button'); 
@@ -75,20 +75,21 @@ popupCloseButtons.forEach(button => {
   }) 
 });
 
-enableValidation({
+const settings = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input-error',
   errorClass: 'input__error-active'
-});
+}
+
+enableValidation(settings);
 
 import { serverData } from './scripts/api.js';
 
 Promise.all(serverData)
   .then((results) => {
-
     const profile = results[0];
     profileTitle.textContent = profile.name;
     profileDescription.textContent = profile.about;
@@ -97,8 +98,10 @@ Promise.all(serverData)
 
     const cards = results[1];
     cards.forEach((card) => { 
-    const cardContent = createCard(profileId, card.owner._id, card._id, card.likes, card.name, card.link, card.name, removeCard, likeCard, openImagePopup) 
-    placesList.append(cardContent); 
+      const cardContent = createCard(profileId, card.owner._id, card._id, card.likes, card.name, card.link, card.name, removeCard, likeCard, openImagePopup) 
+      placesList.append(cardContent); 
+      })
   })
-  })
-  .catch(err => console.log(`Ошибка ${err}`))
+  .catch(error => {
+    console.log(`Ошибка ${error}`);
+  });
