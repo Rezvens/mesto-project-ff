@@ -61,6 +61,7 @@ function openImagePopup(evt) {
   openPopup(popupZoomImage); 
   const card = evt.target.closest('.card'); 
   popupImage.setAttribute('src', evt.target.src); 
+  // popupImage.setAttribute('alt', 'ватафак')
   const cardTitle = card.querySelector('.card__title'); 
   popupCaption.textContent = cardTitle.textContent; 
 }};
@@ -96,7 +97,7 @@ Promise.all(serverData)
 
     const cards = results[1];
     cards.forEach((card) => { 
-    const cardContent = createCard(profileId, card.owner._id, card._id, card.likes, card.name, card.link, card.alt, removeCard, likeCard, openImagePopup) 
+    const cardContent = createCard(profileId, card.owner._id, card._id, card.likes, card.name, card.link, card.name, removeCard, likeCard, openImagePopup) 
     placesList.append(cardContent); 
   })
   })
