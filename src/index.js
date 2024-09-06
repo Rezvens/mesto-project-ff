@@ -11,6 +11,7 @@ const settings = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
+  buttonClass: '.button',
   inactiveButtonClass: 'button-inactive',
   hoverButtonClass: 'hover',
   inputErrorClass: 'popup__input-error',
