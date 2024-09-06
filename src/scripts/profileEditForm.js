@@ -1,7 +1,7 @@
 import { patchDataProfile, patchDataAvatar } from "./api";
-export { profileEditForm, editAvatar };
+export { editProfile, editAvatar };
 
-function profileEditForm(form, title, description, closePopup, renderLoading, evt) {
+function editProfile(form, title, description, closePopup, renderLoading, evt) {
   evt.preventDefault();
   renderLoading(form, true);
 

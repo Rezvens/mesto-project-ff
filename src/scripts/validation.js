@@ -1,4 +1,4 @@
-export { enableValidation };
+export { enableValidation, clearValidation };
 
 
 
@@ -13,17 +13,17 @@ function enableValidation(settings) {
 function setEventListeners(form, settings) {
   const inputList =  Array.from(form.querySelectorAll(settings.inputSelector));
   const button = form.querySelector(settings.submitButtonSelector);
-  toggleButtonState(inputList, button);
+  toggleButtonState(inputList, button, settings);
 
   inputList.forEach((input) => {
     input.addEventListener('input', () => {
-      isValid(form, input);
-      toggleButtonState(inputList, button);
+      isValid(form, input, settings);
+      toggleButtonState(inputList, button, settings);
     })
   })
 }
 
-function isValid(form, input) {
+function isValid(form, input, settings) {
   if (input.validity.patternMismatch) {
     input.setCustomValidity(input.dataset.errorMessage);
   } else {
@@ -31,23 +31,23 @@ function isValid(form, input) {
   }
 
   if (!input.validity.valid) {
-    showInputError(form, input, input.validationMessage);
+    showInputError(form, input, input.validationMessage, settings);
   } else {
-    hideInputError(form, input);
+    hideInputError(form, input, settings);
   }
 }
 
-function showInputError(form, input, errorMessage) {
+function showInputError(form, input, errorMessage, settings) {
   const error = form.querySelector(`.${input.id}-error`);
-  input.classList.add('popup__input-error');
+  input.classList.add(settings.inputErrorClass);
   error.textContent = errorMessage;
-  error.classList.add('input__error-active');
+  error.classList.add(settings.errorClass);
 }
 
-function hideInputError(form, input) {
+function hideInputError(form, input, settings) {
   const error = form.querySelector(`.${input.id}-error`);
-  input.classList.remove('popup__input-error');
-  error.classList.remove('input_error-active');
+  input.classList.remove(settings.inputErrorClass);
+  error.classList.remove(settings.errorClass);
   error.textContent = '';
 }
 
@@ -57,13 +57,19 @@ function hasInvalidInput(inputList) {
   })
 }
 
-function toggleButtonState(inputList, button) {
+function toggleButtonState(inputList, button, settings) {
   if (hasInvalidInput(inputList)) {
     button.setAttribute('disabled', '');
-    button.classList.add('button-inactive');
-    button.classList.remove('hover');
+    button.classList.add(settings.inactiveButtonClass);
+    button.classList.remove(settings.hoverButtonClass);
   } else {
     button.removeAttribute('disabled', '');
-    button.classList.remove('button-inactive');
+    button.classList.remove(settings.inactiveButtonClass);
   }
+}
+
+function clearValidation(form, settings) {
+  const button = form.querySelector('.button');
+  const inputList = Array.from(form.querySelectorAll(settings.inputSelector));
+  toggleButtonState(inputList, button, settings);
 }

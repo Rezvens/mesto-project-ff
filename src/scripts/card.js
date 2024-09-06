@@ -34,18 +34,18 @@ function likeCard(evt) {
 
     if (!likeButton.classList.contains('card__like-button_is-active')) {
       putDataLikeCard(card._id)
-      .then(() => {
+      .then((data) => {
           likeButton.classList.add('card__like-button_is-active');
-          likesCount.textContent = Number(likesCount.textContent) + 1;
+          likesCount.textContent = data.likes.length;
       })
       .catch(error => {
         console.log(`Ошибка ${error}`);
       })
     } else {
       deleteDataLikeCard(card._id)
-      .then(() => {
+      .then((data) => {
           likeButton.classList.remove('card__like-button_is-active');
-          likesCount.textContent = Number(likesCount.textContent) - 1;
+          likesCount.textContent = data.likes.length;
       })
       .catch(error => {
         console.log(`Ошибка ${error}`);

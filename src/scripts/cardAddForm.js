@@ -1,7 +1,7 @@
 import { postDataCard } from "./api";
-export { cardAddForm };
+export { addNewCard };
 
-function cardAddForm(renderLoading, form, nameInput, linkInput, placesList, createCard, removeCard, closePopup, openImagePopup, likeCard, evt) {
+function addNewCard(renderLoading, form, nameInput, linkInput, placesList, createCard, removeCard, closePopup, openImagePopup, likeCard, evt) {
   evt.preventDefault();
   
   const openedPopup = evt.target.closest('.popup');
