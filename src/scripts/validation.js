@@ -71,5 +71,9 @@ function toggleButtonState(inputList, button, settings) {
 function clearValidation(form, settings) {
   const button = form.querySelector(settings.buttonClass);
   const inputList = Array.from(form.querySelectorAll(settings.inputSelector));
-  toggleButtonState(inputList, button, settings);
+  inputList.some(input => {
+    if (!input.value) {
+      toggleButtonState(inputList, button, settings);
+    }
+  })
 }

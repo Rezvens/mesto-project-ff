@@ -52,18 +52,13 @@ const popupAddNewCard = document.querySelector('.popup_type_new-card');
 const popupEditAvatar = document.querySelector('.popup_type_avatar');
 
 profileAddButton.addEventListener('click', () => {
-  if (!nameInput.value && !linkInput.value) {
-    clearValidation(cardForm, settings)
-    console.log('пустые')
-  }
+  clearValidation(cardForm, settings)
   openPopup(popupAddNewCard); 
 });
 
 profileImage.addEventListener('click', () => {
   openPopup(popupEditAvatar);
-  if (!avatarForm.elements.avalink.value) {
-    clearValidation(avatarForm, settings)
-  }
+  clearValidation(avatarForm, settings)
 })
 
 avatarForm.addEventListener('submit', (evt) => {
